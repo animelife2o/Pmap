@@ -1,149 +1,242 @@
-# Pmap
-Pmap is a tool for scaning ip addreses and port of  webpage 
-A lightweight, multi-threaded port scanner built with Python that mimics some of the basic functionality of Nmap.
+A powerful, feature-rich port scanner built with Python that provides Nmap-like functionality with enhanced capabilities for network reconnaissance and security assessment.
 
-Features
-🚀 Fast Multi-threaded Scanning - Scan thousands of ports concurrently
+Features ✨
+🚀 Multi-threaded Scanning - Fast concurrent port scanning
 
-🔍 Multiple Scan Types - TCP connect scanning and basic UDP scanning
+🎯 Multiple Target Support - Scan single IP, multiple IPs, or entire network ranges
 
-🎯 Flexible Port Targeting - Scan specific ports, ranges, or use common ports
+🔍 TCP & UDP Scanning - Comprehensive protocol support
 
-📊 Service Detection - Automatically detects common services on open ports
+📊 Banner Grabbing - Service version detection
 
-💬 Verbose Output - Real-time scanning progress with detailed information
+💻 OS Detection - Basic OS fingerprinting using TTL analysis
 
-⚡ Customizable Settings - Adjustable timeout and thread limits
+📁 File I/O - Save results and load targets from files
 
-Installation
+📈 Progress Tracking - Real-time progress bar for long scans
+
+🔧 Customizable Settings - Adjustable timeout, threads, and scan parameters
+
+🎨 Verbose Output - Detailed scanning information
+
+Installation 🛠️
 Prerequisites
 Python 3.6 or higher
 
 No external dependencies required
 
-Download
+Download & Run
 bash
+# Clone or download the script
 git clone <repository-url>
-cd pmap
-Usage
-Basic Syntax
+cd advanced-port-scanner
+
+# Run directly
+python advanced_scanner.py --help
+Quick Start 🚀
+Basic Scan
 bash
-python pmap.py TARGET [OPTIONS]
-Command Line Options
-Option	Description	Default
--p, --ports	Port range (1-1000) or comma-separated list (22,80,443)	1-1000
--t, --type	Scan type: tcp or udp	tcp
---timeout	Socket timeout in seconds	1.0
---threads	Maximum concurrent threads	1000
--v, --verbose	Enable verbose output	False
---version	Show version information	-
-Examples
-Basic TCP Scan
+python advanced_scanner.py 192.168.1.1
+Common Ports Scan
 bash
-# Scan common ports on a target
-python Pmap.py 192.168.1.1
-
-# Scan specific host with default settings
-python Pmap.py example.com
-Specific Port Scans
-bash
-# Scan a port range
-python pmap.py 192.168.1.1 -p 1-1000
-
-# Scan specific ports
-python pmap.py 192.168.1.1 -p 22,80,443,8080
-
-# Scan single port
-python pmap.py 192.168.1.1 -p 80
-UDP Scanning
-bash
-# UDP scan on common ports
-python Pmap.py 192.168.1.1 -t udp
-
-# UDP scan on specific ports
-python Pmap.py 192.168.1.1 -t udp -p 53,67,68,161
-Advanced Options
-bash
-# Faster scan with reduced timeout
-python Pmap.py 192.168.1.1 --timeout 0.5 -p 1-1000
-
-# Limited threads for resource-constrained environments
-python Pmap.py 192.168.1.1 --threads 100 -p 1-500
-
-# Verbose output to see real-time progress
-python Pmap.py 192.168.1.1 -v -p 20-100
+python advanced_scanner.py example.com -p 22,80,443,8080
 Comprehensive Scan
 bash
-# Full scan with verbose output and custom settings
-python Pmap.py 192.168.1.1 -t tcp -p 1-65535 --threads 500 --timeout 0.3 -v
-Output Example
+python advanced_scanner.py 192.168.1.1 -p 1-1000 --banner --os-scan --progress
+Usage Examples 📝
+Network Discovery
+bash
+# Scan entire subnet
+python advanced_scanner.py --network 192.168.1.0/24 -p 22,80,443
+
+# Scan multiple targets from file
+python advanced_scanner.py -i targets.txt -p 1-100
+Service Detection
+bash
+# Banner grabbing on common services
+python advanced_scanner.py 192.168.1.1 -p 21,22,23,25,80,110,443 --banner
+
+# OS detection with verbose output
+python advanced_scanner.py 192.168.1.1 --os-scan -v
+Performance Scanning
+bash
+# Fast scan with custom settings
+python advanced_scanner.py 192.168.1.1 -p 1-1000 --threads 500 --timeout 0.3
+
+# UDP scanning
+python advanced_scanner.py 192.168.1.1 -t udp -p 53,67,68,161
+Reporting
+bash
+# Save results to file
+python advanced_scanner.py 192.168.1.1 -p 1-1000 -o scan_results.txt
+
+# Comprehensive scan with all features
+python advanced_scanner.py 192.168.1.1 -p 1-65535 --banner --os-scan --progress -o full_scan.txt --threads 1000
+Command Line Options ⚙️
+Basic Options
+Option	Description	Default
+target	Target IP/hostname	Required
+-p, --ports	Ports to scan (1-1000 or 22,80,443)	1-1000
+-t, --type	Scan type: tcp/udp	tcp
+--timeout	Socket timeout (seconds)	1.0
+--threads	Maximum concurrent threads	1000
+-v, --verbose	Enable verbose output	False
+Advanced Features
+Option	Description
+--banner	Enable banner grabbing
+--os-scan	Enable OS detection
+-o, --output	Save results to file
+--progress	Show progress bar
+-i, --input-file	Read targets from file
+--network	Scan network range (CIDR)
+Output Examples 📊
+Sample Scan Output
 text
 Starting TCP scan of 192.168.1.1
+OS detection: Windows
 Scanning 100 ports
 --------------------------------------------------
-
-Port 22 is open (SSH)
-Port 80 is open (HTTP)
-Port 443 is open (HTTPS)
+Progress: |████████████████████████████████████████| 100.0%
 
 ==================================================
-SCAN RESULTS
+SCAN RESULTS - 192.168.1.1
 ==================================================
-PORT        STATE           SERVICE
-22          open            SSH
-80          open            HTTP
-443         open            HTTPS
+PORT      STATE           SERVICE             BANNER
+22        open            SSH                 SSH-2.0-OpenSSH_8.2
+80        open            HTTP                HTTP/1.1 200 OK...
+443       open            HTTPS               HTTP/1.1 200 OK...
 --------------------------------------------------
-Scan completed in 12.34 seconds
-Service Detection
-The tool automatically detects common services including:
+Scan completed in 5.23 seconds
+File Output Format
+text
+Scan results for 192.168.1.1
+==================================================
+Scan type: TCP
+Scan time: 2024-01-15 10:30:45
 
-SSH (22), HTTP (80), HTTPS (443)
+PORT      STATE           SERVICE             BANNER
+22        open            SSH                 SSH-2.0-OpenSSH_8.2
+80        open            HTTP                HTTP/1.1 200 OK...
+443       open            HTTPS               HTTP/1.1 200 OK...
 
-FTP (21), DNS (53), SMTP (25)
+==================================================
+Service Detection 🛰️
+The scanner automatically detects common services including:
 
-RDP (3389), MySQL (3306), PostgreSQL (5432)
+Web Services: HTTP (80), HTTPS (443), HTTP-Alt (8080, 8443)
 
-And many more...
+Remote Access: SSH (22), Telnet (23), RDP (3389), VNC (5900)
 
-Performance Tips
-Timeout Settings: Lower timeout values (0.3-0.5) for faster scans on responsive networks
+Email Services: SMTP (25), POP3 (110), IMAP (143)
 
-Thread Count: Increase threads for faster scanning (be mindful of system resources)
+File Transfer: FTP (21), TFTP (69)
 
-Port Selection: Target specific ports instead of full ranges for quicker results
+Database: MySQL (3306), PostgreSQL (5432), MSSQL (1433)
 
-Network Conditions: Adjust settings based on network latency and target responsiveness
+Network Services: DNS (53), DHCP (67,68), SNMP (161)
 
-Limitations
-UDP scanning is basic and may not be as reliable as specialized tools
+Performance Tuning ⚡
+Optimizing Scan Speed
+bash
+# Fast scan (responsive networks)
+python advanced_scanner.py target --timeout 0.3 --threads 1000
 
-Service detection is based on common port assignments
+# Reliable scan (high-latency networks)
+python advanced_scanner.py target --timeout 2.0 --threads 100
+Resource Management
+bash
+# Low resource usage
+python advanced_scanner.py target --threads 50
 
-No OS detection or advanced fingerprinting
+# Maximum performance
+python advanced_scanner.py target --threads 2000
+Advanced Usage 🧩
+Creating Target Files
+bash
+# targets.txt
+192.168.1.1
+192.168.1.10
+192.168.1.15-192.168.1.20
+example.com
+Batch Scanning
+bash
+# Scan multiple subnets
+for subnet in 192.168.1.0/24 192.168.2.0/24; do
+    python advanced_scanner.py --network $subnet -p 22,80,443 -o scan_$subnet.txt
+done
+Integration with Other Tools
+bash
+# Pipe results to grep
+python advanced_scanner.py 192.168.1.1 -p 1-1000 | grep "open"
 
-Limited error handling for complex network scenarios
+# Save open ports to file
+python advanced_scanner.py 192.168.1.1 -p 1-1000 -o results.txt && cat results.txt | grep "open" > open_ports.txt
+Limitations ⚠️
+UDP Reliability: UDP scanning may be less reliable than TCP
 
-Legal Disclaimer
+OS Detection: Basic TTL-based detection, not as accurate as advanced fingerprinting
+
+Firewall Evasion: No built-in stealth or evasion techniques
+
+Privilege Requirements: Some features may require elevated privileges
+
+Service Detection: Limited to common port-service mappings
+
+Legal Disclaimer ⚖️
 This tool is intended for:
 
-Educational purposes
+✅ Educational purposes
 
-Security research with proper authorization
+✅ Security research with proper authorization
 
-Network administration on owned systems
+✅ Network administration on owned systems
 
-Security assessment with explicit permission
+✅ Penetration testing with explicit permission
 
-⚠️ Warning: Unauthorized port scanning may be illegal in your jurisdiction. Always obtain proper authorization before scanning any network or system you don't own.
+⚠️ Important: Unauthorized scanning of networks and systems may be:
 
-Version
-Pmap 1.0
+Illegal in your jurisdiction
 
-Contributing
-Feel free to submit issues and enhancement requests!
+Against terms of service
 
-License
-This project is for educational purposes. Use responsibly and ethically.
+Considered hostile activity
 
+Always obtain proper authorization before scanning any network or system you don't own.
 
+Troubleshooting 🔧
+Common Issues
+Slow Scanning: Increase --threads or decrease --timeout
+
+No Results: Check target connectivity and firewall settings
+
+Permission Errors: Run with appropriate privileges
+
+Memory Issues: Reduce --threads value
+
+Debug Mode
+bash
+python advanced_scanner.py target -v --timeout 5
+Version History 📚
+v2.0 (Current): Advanced features, multiple targets, banner grabbing
+
+v1.0: Basic TCP/UDP port scanning functionality
+
+Contributing 🤝
+Contributions are welcome! Please feel free to submit pull requests or open issues for:
+
+Bug fixes
+
+New features
+
+Performance improvements
+
+Documentation updates
+
+License 📄
+This project is intended for educational and authorized security testing purposes. Use responsibly and ethically.
+
+Happy Scanning! 🎯
+
+For questions or issues, please open a GitHub issue or contact the development team.
+
+Pmap version 1.1
